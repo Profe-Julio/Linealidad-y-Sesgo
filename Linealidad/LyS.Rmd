@@ -1,0 +1,305 @@
+---
+header-includes: 
+  - \usepackage[utf8]{inputenc}
+  - \usepackage[spanish,mexico]{babel}
+  - \usepackage{graphicx}
+  - \usepackage[export]{adjustbox}
+  - \usepackage{caption}
+  - \usepackage{subcaption}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages("ggplot2")
+install.packages("ggpubr")
+install.packages("dplyr")
+install.packages("readxl")
+install.packages("stargazer")
+install.packages("knitr")
+install.packages("latex2exp")
+library(ggplot2) 
+library(readxl)
+library(ggpubr)
+library(dplyr)
+library(stargazer)
+library(knitr)
+library(latex2exp)
+```
+
+
+```{=latex}
+\thispagestyle{empty}
+	
+	\begin{figure}[ht]
+	   \minipage{0.76\textwidth}
+			\includegraphics[width=4cm]{Logo UACH.png}
+			\label{EscudoUACH}
+	   \endminipage
+	   \minipage{0.32\textwidth}
+			\includegraphics[height = 4cm ,width=3cm]{FCQ.png}
+			\label{EscudoFCPyS}
+		\endminipage
+	\end{figure}
+	
+	\begin{center}
+	\vspace{0.8cm}
+	\LARGE
+	UNIVERSIDAD AUTÓNOMA DE CHIHUAHUA 
+	
+	\vspace{0.8cm}
+	\LARGE
+	FACULTAD DE CIENCIAS QUÍMICAS
+	
+	\vspace{1.7cm}	
+	\Large
+	\textbf{ESTUDIO DE LINEALIDAD Y SESGO}
+
+	\vspace{1.3cm}
+	\normalsize	
+	\vspace{.3cm}
+	\large
+	\textbf{Nombre del Alumno \\ Matrícula}
+	
+	\vspace{1.3cm}
+	\normalsize	
+	PROFESOR \\
+	\vspace{.3cm}
+	\large
+	\textbf{Julio César Robles Venzor}
+	
+	\vspace{1.3cm}
+	\normalsize	
+	ASIGNATURA \\
+	\vspace{.3cm}
+	\large
+	\textbf{QUIMIOMETRÍA}
+	
+	\vspace{1.3cm}
+	\textbf{Chihuahua Chih., a 23 de Febrero del 2024}
+	\end{center}
+	
+	\newpage
+	
+```
+# **Linealidad**
+
+La diferencia de sesgo a través del rango (de medición) de operación esperado del equipo es llamada linealidad. La linealidad puede tomarse como un cambio de sesgo con respecto al tamaño.
+
+Posibles causas para errores de linealidad incluyen:
+
+- El instrumento necesita calibración, reducir el intervalo de calibración
+
+- Instrumento, equipo o dispositivo desgastado
+
+- Mantenimiento deficiente – aire, energía eléctrica, hidráulica, filtros, corrosión, oxidación, limpieza
+
+-  Másters desgastados o dañados, error en los másters – mínimo / máximo Calibración (no cubriendo el rango de operación) o uso de los másters de ajuste inapropiados
+
+- Calidad deficiente del instrumento – diseño o conformancia
+
+- Falta de robustez del diseño del instrumento o método
+
+- Gage equivocado para la aplicación
+
+- Diferente método de medición – ajuste, carga, sujeción, técnica
+
+- Cambios de distorsión (del gage o la parte) con el tamaño de las partes
+
+- Medio ambiente – temperatura, humedad, vibración, limpieza
+
+- Violación a algún supuesto, error en la aplicación de una constante
+
+- Aplicación – tamaño de la parte, posición, habilidad del operador, fatiga, error de observación (facilidad de lectura, paralelismo)
+
+# **Sesgo**
+
+El sesgo es a menudo referido como “exactitud”. Debido a que la “exactitud” tiene varios significados en la literatura, no se recomienda su uso como una alternativa para “sesgo”.
+
+Sesgo es la diferencia entre el valor verdadero (valor referencia) y el promedio observado de las mediciones sobre la misma característica y la misma parte.
+
+Sesgo es la medida del error sistemático del sistema de medición. Es la contribución del error total integrado por los efectos combinados de todas las fuentes de variación, conocidas o no conocidas, cuya contribución al error total tiende a compensar en forma consistente y predecible todos los resultados de aplicaciones repetidas del mismo proceso de medición para el tiempo de las mediciones mismas.
+
+Posibles causas para un sesgo excesivo son:
+
+- El instrumento necesita calibración
+
+- Instrumento, equipo o dispositivo desgastado
+
+- Máster dañado o desgastado, error en el máster
+
+- Calibración o uso de un máster de ajuste inapropiados
+
+- Instrumento de baja calidad – diseño o conformancia
+
+- Error de linealidad
+
+- Gage equivocado para la aplicación
+
+- Diferente método de medición – ajuste, carga, sujeción, técnica
+
+- Medición de característica equivocada
+
+- Distorsión (del gage o la parte)
+
+- Medio ambiente – temperatura, humedad, vibración, limpieza
+
+- Violación a algún supuesto, error en la aplicación de una constante
+
+- Aplicación – tamaño de la parte, posición, habilidad del operador, fatiga, error de observación (facilidad de lectura, paralelismo)
+
+El procedimiento de medición empleado en el proceso de calibración (ej., usando “másters”) debiera ser lo más idéntico posible al procedimiento de medición de la operación normal.
+
+# **Ejemplo**
+
+Un ingeniero desea evaluar la linealidad y el sesgo de un sistema de medición que se utiliza para medir diámetros internos de rodamientos. El ingeniero selecciona cinco partes que representan el rango esperado de mediciones. Cada parte se midió utilizando inspección total para determinar su medición de referencia y luego un operador midió cada parte de forma aleatoria 12 veces. El ingeniero realizó previamente un estudio R&R cruzado del sistema de medición, utilizando el método ANOVA, y determinó que la variación total del estudio es 16.5368. (Tomado de [Minitab](https://support.minitab.com/es-mx/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/how-to/gage-study/gage-linearity-and-bias-study/before-you-start/example/) )
+
+${\color{red}NOTA}$
+
+(**Opcional**) En Variación del proceso, es un valor que represente 6 * la desviación estándar del proceso, si la tiene. Puede introducir la desviación estándar del proceso desde la fila Variación total de la columna Var de estudio (6 * SD) de la salida de un estudio de RyR de medición, o puede introducir un valor conocido (6 * la desviación estándar histórica).
+
+# **Linealidad del sistema de medición**
+
+\vspace{1cm}
+	
+```{r echo=FALSE, fig.height=3,warning=FALSE, message=FALSE}
+Datos <- read_excel("Datos LyS.xlsx")
+Sesgo <- Datos$Respuesta-Datos$Referencia
+Datos1 <- data.frame(Datos,Sesgo)
+
+ggplot(Datos1,aes (Referencia,Sesgo)) +
+        geom_smooth (method = "lm",se=T) +
+        geom_point () +
+  stat_regline_equation(label.x = 7,label.y = 1,size=4)+
+  stat_cor(aes(label=..rr.label..),
+  label.x = 9,label.y = 1,size=4)+
+  stat_cor(aes(label=..p.label..),
+label.x = 7,label.y = 0.7,size=4)+
+  labs(title = "Gráfico de Dispersión con Regresión Lineal y R^2", x="Referencia",y="Concentración")+
+  theme(axis.title = element_text(size = 10))
+
+
+```
+\vspace{1cm}
+
+```{r echo=FALSE,fig.height=3,fig.align='left',message=FALSE, warning=FALSE, results='asis'}
+Linealidad <- lm(Sesgo~Referencia, data = Datos1)
+
+stargazer(Linealidad,header = F,font.size = "small", float = F )
+
+```
+
+\vspace{1cm}
+
+```{r echo=FALSE}
+# Linealidad
+
+VT <- 16.5368
+LIN <- round(abs(Linealidad$coefficients[2])*VT,4)
+paste("Linealidad =",LIN)
+
+
+# % Linealidad
+
+PorcLineal <- round(abs(Linealidad$coefficients[2])*100,4)
+paste("% Linealidad =", PorcLineal)
+
+s <- sigma(Linealidad)
+```
+
+**Conclusiones sobre la Linealidad**
+
+El valor P de la pendiente es menor a 0.05, lo que indica que hay linealidad, lo cual es un problema.  El sesgo general no se puede evaluar cuando existe linealidad significativa, porque los sesgos de los diferentes valores de referencia son diferentes.
+
+El % de Sesgo es 13.2, lo que indica que la linealidad del sistema de medición explica el 13% de la variación general del proceso.
+
+El resultado obtenido del análisis gráfico es reforzado con el análisis numérico existe un problema de linealidad con este sistema de medición (Valor de P de la pendiente, P<0.05).
+
+El sistema de medición tiene un problema de linealidad, necesita ser recalibrado para lograr un sesgo de 0 a través de la modificación del hardware, software o ambos.
+
+Si el sesgo no puede ser ajustado a cero a través del rango del sistema de medición, todavía puede ser usado para control del producto / proceso, pero sin análisis hasta que el sistema de medición llegue a ser estable.
+
+Dado que esto cuenta con un alto riesgo de error del evaluador, debiera ser usado solo con la concurrencia del cliente.
+
+
+\vspace{1cm}
+
+# **Análisis de Sesgo en la medición** 
+
+Puesto que la linealidad es significativa, se debe utilizar los valores individuales de sesgo y no el valor promedio de sesgo general.
+
+**Sesgo General**
+
+```{r echo=FALSE}
+General <- Datos1 %>%
+  summarise("Sesgo" = mean(Sesgo), "% de Sesgo" = abs(mean(Sesgo))/VT*100,
+            Valor_P =(1-pt(abs(mean(Sesgo)/(s/sqrt(n()))),n()-1))*2,
+            "Conclusión"= if(Valor_P<=0.05) {"Sesgada"} else {"Insesgada"})
+
+knitr::kable(General)
+
+
+```
+
+\vspace{1cm}
+
+**Sesgo por referencia**
+
+
+```{r echo=FALSE}
+
+Individual <- Datos1 %>%
+  group_by(Referencia) %>%
+  summarise("Sesgo" = mean(Sesgo), "% de Sesgo" = abs(mean(Sesgo))/VT*100)
+
+Individual1 <- Datos1 %>%
+  group_by(Referencia) %>%
+  summarise(Valor_P =(1-pt(abs(mean(Sesgo)/(sd(Sesgo)/sqrt(n()))),n()-1))*2,
+            "Conclusión"= if (Valor_P <=0.05) {"Sesgada"} else {"Insesgada"})
+
+df <- inner_join(Individual,Individual1, by='Referencia')
+knitr::kable(df)
+
+PSESGO <- abs(mean(Sesgo))/VT*100
+PLINEAL <- round(abs(Linealidad$coefficients[2])*100,4)
+
+df <- data.frame(Grupo = c("Sesgo","Linealidad"), Porcentaje = c(PSESGO,PLINEAL))
+
+ggplot(df, aes(x = Grupo , y = Porcentaje)) +
+  geom_bar(stat = "identity",
+           color = "lightblue",
+           lwd = 2, fill = "white")+
+  labs(title = "Porcentaje de la variación del proceso",x=" ", y= "Porcentaje")
+  
+
+```
+
+\vspace{1cm}
+
+**Conclusiones sobre el Sesgo**
+
+Los valores de referencia 2, 8 y 10 presentan sesgo ($P\leq0.05$), mientras que los valores de referencia 4 y 6 no tienen sesgo en sus mediciones.
+
+El sesgo es estadísticamente no cero, investigar las siguientes posibles causas:
+
+- Error en el máster o valor de referencia. Procedimiento de chequeo del máster.
+
+- Instrumento desgastado. Esto puede mostrarse en el análisis de estabilidad y sugeriría un programa de mantenimiento o reconstrucción.
+
+- Instrumento hecho para dimensiones equivocadas.
+
+- Instrumento midiendo la característica equivocada.
+
+- Instrumento no calibrado apropiadamente. Revisar el procedimiento de calibración.
+
+- Instrumento usado en forma inapropiada por el evaluador. Revisar las instrucciones de medición.
+
+- Algoritmo incorrecto para la corrección del instrumento.
+
+El sistema de medición cuenta con un sesgo no cero, donde debiera ser posible recalibrarse para lograr un sesgo de cero a través de la modificación del hardware, software o ambos. Si el sesgo no puede ajustarse a cero, todavía puede usarse a través de un cambio en el procedimiento (ej., ajustando cada lectura por el sesgo). Dado que esto cuenta con un alto riesgo de error del evaluador, debiera usarse solo con la concurrencia del consumidor.
+
+
